@@ -10,10 +10,10 @@
 <style>
 .FixedHeightContainer
 {
-
+ 
   height: 250px;
-  width:auto;
-  padding:3px;
+  width:auto; 
+  padding:3px; 
 
 }
 .FixedHtContent
@@ -207,94 +207,58 @@ overflow: auto;
 <div class="container-fluid mt--7">
 
         <div class="row">
-
+          
           <div class="col">
             <div class="card shadow">
-
+              
               <div class="card-header bg-transparent">
                 <div class="third"> <h2>Data Input</h2> </div>
                 <div class="third"> <h2>Model Parameter Importances</h2> </div>
                 <div class="third"> <h2>File Parameter Importances</h2> </div>
               </div>
-
-
+           
+  
               <div class="row">
-
+  
               <div class="col-sm-4">
+                
+                <div class = "FixedHtContent">
 
-                  <div class="row">
-                    <div class = "FixedHtContent">
-                    <form action ="{% url 'eval_process_loan' %}" method="post" novalidate>
-                      {% csrf_token %}
-                      <table>
-                      {{form}}
+                <form action ="{% url 'eval_process_loan' %}" method="post" novalidate>
+                  {% csrf_token %}
+                  <table>
+                  {{form}}
+  
+                  </table>
+                    <input type="submit" value="Evaluate File">
+                  </form>
 
-                      </table>
-                        <input type="submit" value="Evaluate File">
-                      </form>
-
-                    </div>
-
-                  </div>
-
-
-
-                  <div class="row">
-                    <div class = "FixedHtContent">
-                    <form action ="{% url 'eval_process_loan' %}" method="post" novalidate>
-                      {% csrf_token %}
-
-                        <input type="submit" value="Compare File">
-                      </form>
-
-                    </div>
-
-                  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                </div>
 
               </div>
-
+  
               <div class="col-sm-4">
                   <canvas id="myChart_model_shap"></canvas>
               </div>
-
+  
               <div class="col-sm-4">
-
+  
                   {% if showPlot == 'True' %}
                         <canvas id="myChart" width="400" height="400"></canvas>
                   {%elif showPlot == 'False' %}
-
+  
                   {%endif%}
-
+  
               </div>
-
+  
               </div>
             </div>
           </div>
         </div>
-
-
+  
+  
         {% include "includes/footer.html" %}
-
+  
       </div>
 
 
@@ -334,7 +298,7 @@ overflow: auto;
 
 
 
-
+  
   <!--   Core JS Files   -->
   <script src="js/core/jquery.min.js"></script>
   <script src="js/core/popper.min.js"></script>
@@ -377,7 +341,7 @@ overflow: auto;
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/static/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-
+  
 
 
 
@@ -392,23 +356,23 @@ overflow: auto;
     var bar_color2 = "#1ABC9C";
     var scoreM = {{scoreF|safe}};
     var test_thres = {{test_threshold|safe}};
-
+    
     if (scoreM>test_thres){
       var bar_color2 = "#1ABC9C";
     } else {
       var bar_color2 = "#FF0000";
     }
-
+    
     var all_data_set = [];
-
-
+    
+    
     for (i = 0; i < arrayLength+1; i++) {
         data_train=myTrainProbArray[i];
-
+    
         if (i < arrayLength) {
-
+    
                 var dat_set1 = {
-
+    
                              data: data_train,
                              fill: false,
                              backgroundColor: bar_color1,
@@ -425,15 +389,15 @@ overflow: auto;
                              borderColor: bar_color2,
                              borderWidth: 2
                            };
-
+    
                  }
         all_data_set.push(dat_set1);
-
+    
     };
-
-
-
-
+    
+    
+    
+    
       var ctx = document.getElementById('myChart').getContext('2d');
       var myChart = new Chart(ctx, {
           type: 'line',
@@ -453,29 +417,29 @@ overflow: auto;
           }
       });
       </script>
-
+    
       <script>
-
+    
       const model_shap_plot_data = {{model_shap_plot_data|safe}}
       var dataset_model_shap = model_shap_plot_data.chartdata;
       var labels_imp_vars = model_shap_plot_data.labels;
       var co_rel = model_shap_plot_data.corr_v;
-
+    
       console.log('hehhehhehhhehehehehehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
-
+    
     var bar_color_shap = []
       for (yy in co_rel) {
         var y=Number(co_rel[yy])
-
+    
             if (y < 0) {
                 bar_col = "#FA8072";
               } else {
                 bar_col = "#1ABC9C";
               }
             bar_color_shap.push(bar_col)
-
+    
     }
-
+    
         var ctx_shap = document.getElementById('myChart_model_shap').getContext('2d');
         var myChart_model_shap = new Chart(ctx_shap, {
           type: 'horizontalBar',
@@ -496,7 +460,7 @@ overflow: auto;
                     beginAtZero: true
                 }
             }],
-
+    
             yAxes: [{
             ticks: {
               beginAtZero: true
@@ -505,11 +469,11 @@ overflow: auto;
           }
           }
         });
-
+    
         </script>
-
-
-
+    
+    
+    
 
 
 
