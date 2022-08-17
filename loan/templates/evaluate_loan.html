@@ -1,0 +1,533 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Loan Model {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+<style> .third { width: 33.33%; float: left; background-color:lightblue; height: auto; } </style>
+
+<style>
+.FixedHeightContainer
+{
+
+  height: 250px;
+  width:auto;
+  padding:3px;
+
+}
+.FixedHtContent
+{
+  height:500px;
+   overflow:auto;
+    background:#fff;
+}
+
+</style>
+<style>
+
+@import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+.bai-block{
+    background: #5185ca;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to bottom, #7733ff, #5500ff);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to bottom, #cac0dd, #5500ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+float:left;
+width:100%;
+height:80%;
+padding : 80px 0;
+}
+.banner-sec{background:url(https://static.pexels.com/photos/33972/pexels-photo.jpg)  no-repeat left bottom; background-size:cover; min-height:600px; border-radius: 0 10px 10px 0; padding:0;}
+
+.container{background:#fff; border-radius: 0; box-shadow:15px 20px 0px rgba(0,0,0,0.1);}
+
+.carousel-inner{border-radius:0 0 0 0;}
+.carousel-caption{text-align:left;}
+.login-sec{padding: 50px 30px; position:relative;}
+.login-sec .copy-text{position:absolute; width:80%; bottom:20px; font-size:13px; text-align:center;}
+.login-sec .copy-text i{color:#FEB58A;}
+.login-sec .copy-text a{color:#E36262;}
+.login-sec h2{margin-bottom:0; font-weight:800; font-size:30px; color: #DE6262;}
+.login-sec h2:after{content:" "; width:100px; height:5px; background:#FEB58A; display:block; margin-top:20px; border-radius:3px; margin-left:auto;margin-right:auto}
+.btn-login{background: #DE6262; color:#fff; font-weight:600;}
+.banner-text{width:70%; position:absolute; bottom:40px; padding-left:20px;}
+.banner-text h2{color:#fff; font-weight:800;}
+.banner-text h2:after{content:" "; width:100px; height:5px; background:#FFF; display:block; margin-top:20px; border-radius:3px;}
+.banner-text p{color:#fff;}
+
+.white-plc-bai {
+background: #41c3ac;
+height: 250px;
+overflow: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
+
+
+
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="bai-block pb-8 pt-5 pt-md-8">
+      <div class="container-fluid">
+        <div class="header-body">
+          <!-- Card stats -->
+          <div class="row">
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">AUC</h5>
+                      <span class="h2 font-weight-bold mb-0">{{auc}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                        <i class="fas fa-chart-bar"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Past Threshold</h5>
+                      <span class="h2 font-weight-bold mb-0">{{test_threshold}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                        <i class="fas fa-chart-pie"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last week</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">File Score</h5>
+                      <span class="h2 font-weight-bold mb-0">{{scoreF}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                        <i class="fas fa-users"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
+                    <span class="text-nowrap">Since yesterday</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">File Decision</h5>
+                      <span class="h2 font-weight-bold mb-0">{{file_decsion}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                        <i class="fas fa-percent"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+<!-- Header Ends -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container-fluid mt--7">
+
+        <div class="row">
+
+          <div class="col">
+            <div class="card shadow">
+
+              <div class="card-header bg-transparent">
+                <div class="third"> <h2>Data Input</h2> </div>
+                <div class="third"> <h2>Model Parameter Importances</h2> </div>
+                <div class="third"> <h2>File Parameter Importances</h2> </div>
+              </div>
+
+
+              <div class="row">
+
+              <div class="col-sm-4">
+
+                  <div class="row">
+                    <div class = "FixedHtContent">
+                    <form action ="{% url 'eval_process_loan' %}" method="post" novalidate>
+                      {% csrf_token %}
+                      <table>
+                      {{form}}
+
+                      </table>
+                        <input type="submit" value="Evaluate File">
+                      </form>
+
+                    </div>
+
+                  </div>
+
+
+
+                  <div class="row">
+                    <div class = "FixedHtContent">
+                    <form action ="{% url 'eval_process_loan' %}" method="post" novalidate>
+                      {% csrf_token %}
+
+                        <input type="submit" value="Compare File">
+                      </form>
+
+                    </div>
+
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              </div>
+
+              <div class="col-sm-4">
+                  <canvas id="myChart_model_shap"></canvas>
+              </div>
+
+              <div class="col-sm-4">
+
+                  {% if showPlot == 'True' %}
+                        <canvas id="myChart" width="400" height="400"></canvas>
+                  {%elif showPlot == 'False' %}
+
+                  {%endif%}
+
+              </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        {% include "includes/footer.html" %}
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {% endblock content %}
+
+        <!-- Specific JS goes HERE -->
+        {% block javascripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--   Core JS Files   -->
+  <script src="js/core/jquery.min.js"></script>
+  <script src="js/core/popper.min.js"></script>
+  <script src="js/core/bootstrap-material-design.min.js"></script>
+  <script src="js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="js/plugins/jquery.validate.min.js"></script>
+  <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+  <script src="js/plugins/jquery.bootstrap-wizard.js"></script>
+  <!--  Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+  <script src="js/plugins/bootstrap-selectpicker.js"></script>
+  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+  <script src="js/plugins/bootstrap-datetimepicker.min.js"></script>
+  <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+  <script src="js/plugins/jquery.dataTables.min.js"></script>
+  <!--  Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+  <script src="js/plugins/bootstrap-tagsinput.js"></script>
+  <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+  <script src="js/plugins/jasny-bootstrap.min.js"></script>
+  <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+  <script src="js/plugins/fullcalendar.min.js"></script>
+  <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+  <script src="js/plugins/jquery-jvectormap.js"></script>
+  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+  <script src="js/plugins/nouislider.min.js"></script>
+  <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+  <!-- Library for adding dinamically elements -->
+  <script src="/static/js/plugins/arrive.min.js"></script>
+  <!--  Google Maps Plugin    -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <!-- Chartist JS -->
+  <script src="/static/js/plugins/chartist.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="/static/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="/static/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
+  <!-- Material Dashboard DEMO methods, don't include it in your project! -->
+
+
+
+
+
+
+  <script>
+
+    const train_probs = {{train_probs|safe}};
+    var myTrainProbArray = train_probs;
+    var arrayLength = myTrainProbArray.length;
+    var bar_color1 = "#FA8072";
+    var bar_color2 = "#1ABC9C";
+    var scoreM = {{scoreF|safe}};
+    var test_thres = {{test_threshold|safe}};
+
+    if (scoreM>test_thres){
+      var bar_color2 = "#1ABC9C";
+    } else {
+      var bar_color2 = "#FF0000";
+    }
+
+    var all_data_set = [];
+
+
+    for (i = 0; i < arrayLength+1; i++) {
+        data_train=myTrainProbArray[i];
+
+        if (i < arrayLength) {
+
+                var dat_set1 = {
+
+                             data: data_train,
+                             fill: false,
+                             backgroundColor: bar_color1,
+                             borderColor: bar_color1,
+                             borderDash: [10,5],
+                             borderWidth: 1
+                           };
+        } else {
+                   var dat_set1 = {
+                             label: 'Curren File',
+                             data: {{shap_probs|safe}},
+                             fill: false,
+                             backgroundColor: bar_color2,
+                             borderColor: bar_color2,
+                             borderWidth: 2
+                           };
+
+                 }
+        all_data_set.push(dat_set1);
+
+    };
+
+
+
+
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: {{shap_cols|safe}},
+              datasets: all_data_set
+          },
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: false
+                      }
+                  }
+                  ]
+              }
+          }
+      });
+      </script>
+
+      <script>
+
+      const model_shap_plot_data = {{model_shap_plot_data|safe}}
+      var dataset_model_shap = model_shap_plot_data.chartdata;
+      var labels_imp_vars = model_shap_plot_data.labels;
+      var co_rel = model_shap_plot_data.corr_v;
+
+      console.log('hehhehhehhhehehehehehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
+
+    var bar_color_shap = []
+      for (yy in co_rel) {
+        var y=Number(co_rel[yy])
+
+            if (y < 0) {
+                bar_col = "#FA8072";
+              } else {
+                bar_col = "#1ABC9C";
+              }
+            bar_color_shap.push(bar_col)
+
+    }
+
+        var ctx_shap = document.getElementById('myChart_model_shap').getContext('2d');
+        var myChart_model_shap = new Chart(ctx_shap, {
+          type: 'horizontalBar',
+          data: {
+          labels: labels_imp_vars,
+          datasets: [{
+            label:'hahhahha chart label' ,
+            data: dataset_model_shap,
+            backgroundColor: bar_color_shap,
+            borderColor: bar_color_shap,
+            borderWidth: 1
+          }]
+          },
+          options: {
+          scales: {
+            xAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
+
+            yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+            }]
+          }
+          }
+        });
+
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {% endblock javascripts %}

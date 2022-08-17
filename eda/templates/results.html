@@ -1,0 +1,333 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Bima/Insurance Model {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+
+
+<style>
+
+  @import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+  .bai-block{
+      background: #5185ca;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #7733ff, #5500ff);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #cac0dd, #5500ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  float:left;
+  width:100%;
+  height:80%;
+  padding : 80px 0;
+  }
+  .banner-sec{background:url(https://static.pexels.com/photos/33972/pexels-photo.jpg)  no-repeat left bottom; background-size:cover; min-height:600px; border-radius: 0 10px 10px 0; padding:0;}
+
+  .container{background:#fff; border-radius: 0; box-shadow:15px 20px 0px rgba(0,0,0,0.1);}
+
+  .carousel-inner{border-radius:0 0 0 0;}
+  .carousel-caption{text-align:left;}
+  .login-sec{padding: 50px 30px; position:relative;}
+  .login-sec .copy-text{position:absolute; width:80%; bottom:20px; font-size:13px; text-align:center;}
+  .login-sec .copy-text i{color:#FEB58A;}
+  .login-sec .copy-text a{color:#E36262;}
+  .login-sec h2{margin-bottom:0; font-weight:800; font-size:30px; color: #DE6262;}
+  .login-sec h2:after{content:" "; width:100px; height:5px; background:#FEB58A; display:block; margin-top:20px; border-radius:3px; margin-left:auto;margin-right:auto}
+  .btn-login{background: #DE6262; color:#fff; font-weight:600;}
+  .banner-text{width:70%; position:absolute; bottom:40px; padding-left:20px;}
+  .banner-text h2{color:#fff; font-weight:800;}
+  .banner-text h2:after{content:" "; width:100px; height:5px; background:#FFF; display:block; margin-top:20px; border-radius:3px;}
+  .banner-text p{color:#fff;}
+
+  .white-plc-bai {
+  background: #41c3ac;
+  height: 250px;
+  overflow: auto;
+}
+
+  </style>
+
+{% endblock stylesheets %}
+
+
+
+{% block content %}
+
+<div class="bai-block pb-8 pt-5 pt-md-8">
+</div>
+
+<div class = "white-plc-bai">
+
+</div>
+
+
+<div class="col-sm-2">
+
+      <p>Data Insight:</p>
+        {% block df_columns %}
+            {% if df_columns %}
+            <select  id="select-feature" >
+
+                {% for message in df_columns %}
+                    {{ message }}
+                  <option value={{ message }}>{{ message }}</option>
+                {% endfor %}
+                </select type="onClick" >
+            {% endif %}
+        {% endblock %}
+
+
+
+
+
+</div>
+
+
+
+
+
+      <div>
+
+        <div class="stats">
+          <a class="btn btn-outline-info btn-round" href="{% url 'tables' %}"> Data Summary</a>
+        </div>
+
+
+
+
+
+
+
+              <div class="row">
+                        <div  class="col-sm-4">
+
+                          {% autoescape off %}
+                              {{ plot_fig_Age }}
+                          {% endautoescape %}
+
+                          </div>
+
+
+                          <div  class="col-sm-4">
+
+                            {% autoescape off %}
+                                {{ plot_fig_loan_dist}}
+                            {% endautoescape %}
+
+                            </div>
+
+
+                            <div  class="col-sm-4">
+
+                              {% autoescape off %}
+                                  {{ plot_fig_LS }}
+                              {% endautoescape %}
+
+                              </div>
+
+              </div>
+
+
+        <div class="row">
+
+          <div  class="col-sm-4">
+
+            {% autoescape off %}
+                {{ plot_cor_fig }}
+            {% endautoescape %}
+
+            </div>
+
+
+
+
+            <div  class="col-sm-4">
+
+              {% autoescape off %}
+                  {{ fig_loanbox}}
+              {% endautoescape %}
+
+              </div>
+
+
+              <div  class="col-sm-4">
+
+                {% autoescape off %}
+                    {{ plot_fig_heat}}
+                {% endautoescape %}
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+
+              {% include "includes/footer.html" %}
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {% endblock content %}
+
+    <!-- Specific JS goes HERE -->
+    {% block javascripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/static/js/core/jquery.min.js"></script>
+  <script src="/static/js/core/popper.min.js"></script>
+  <script src="/static/js/core/bootstrap-material-design.min.js"></script>
+  <script src="/static/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="/static/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="/static/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="/static/js/plugins/jquery.validate.min.js"></script>
+  <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+  <script src="/static/js/plugins/jquery.bootstrap-wizard.js"></script>
+  <!--  Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+  <script src="/static/js/plugins/bootstrap-selectpicker.js"></script>
+  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+  <script src="/static/js/plugins/bootstrap-datetimepicker.min.js"></script>
+  <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+  <script src="/static/js/plugins/jquery.dataTables.min.js"></script>
+  <!--  Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+  <script src="/static/js/plugins/bootstrap-tagsinput.js"></script>
+  <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+  <script src="/static/js/plugins/jasny-bootstrap.min.js"></script>
+  <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+  <script src="/static/js/plugins/fullcalendar.min.js"></script>
+  <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+  <script src="/static/js/plugins/jquery-jvectormap.js"></script>
+  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+  <script src="/static/js/plugins/nouislider.min.js"></script>
+  <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+  <!-- Library for adding dinamically elements -->
+  <script src="/static/js/plugins/arrive.min.js"></script>
+  <!--  Google Maps Plugin    -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <!-- Chartist JS -->
+  <script src="/static/js/plugins/chartist.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="/static/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="/static/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
+  <!-- Material Dashboard DEMO methods, don't include it in your project! -->
+
+
+
+
+
+  <script>
+
+
+    var select = document.getElementById('select-feature');
+    var value = select.options[select.selectedIndex].value;
+    console.log('yyryryyryr',{{listkeys}}); //
+
+
+  var colorArray = [
+      '#dd0453', '#fdfd05', '#66E64D', '#0660e7', '#9900B3',
+       '#d07201', '#14b300','#06d2a6','#f8061a','#c45850',
+  	'#66664D', '#d6d6d7', '#76008f', '#4DB3FF', '#1AB399',
+  	'#ec92d1', '#33991A', '#ba8383', '#B3B31A', '#00E680',
+  	'#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+  	'#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
+      new Chart(document.getElementById("pie-chart"), {
+      type: 'pie',
+      data: {
+        labels:  {{ listkeys|safe }},
+        datasets: [{
+          label: "",
+          backgroundColor: colorArray,
+          data: {{ listvalues|safe }}
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Visualization'
+        }
+      }
+  });
+
+      </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {% endblock javascripts %}

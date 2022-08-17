@@ -1,0 +1,392 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Income Model {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+
+<style>
+
+  @import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+  .bai-block{
+      background: #5185ca;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #7733ff, #5500ff);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #cac0dd, #5500ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  float:left;
+  width:100%;
+  height:80%;
+  padding : 80px 0;
+  }
+  .banner-sec{background:url(https://static.pexels.com/photos/33972/pexels-photo.jpg)  no-repeat left bottom; background-size:cover; min-height:600px; border-radius: 0 10px 10px 0; padding:0;}
+
+  .container{background:#fff; border-radius: 0; box-shadow:15px 20px 0px rgba(0,0,0,0.1);}
+
+  .carousel-inner{border-radius:0 0 0 0;}
+  .carousel-caption{text-align:left;}
+  .login-sec{padding: 50px 30px; position:relative;}
+  .login-sec .copy-text{position:absolute; width:80%; bottom:20px; font-size:13px; text-align:center;}
+  .login-sec .copy-text i{color:#FEB58A;}
+  .login-sec .copy-text a{color:#E36262;}
+  .login-sec h2{margin-bottom:0; font-weight:800; font-size:30px; color: #DE6262;}
+  .login-sec h2:after{content:" "; width:100px; height:5px; background:#FEB58A; display:block; margin-top:20px; border-radius:3px; margin-left:auto;margin-right:auto}
+  .btn-login{background: #DE6262; color:#fff; font-weight:600;}
+  .banner-text{width:70%; position:absolute; bottom:40px; padding-left:20px;}
+  .banner-text h2{color:#fff; font-weight:800;}
+  .banner-text h2:after{content:" "; width:100px; height:5px; background:#FFF; display:block; margin-top:20px; border-radius:3px;}
+  .banner-text p{color:#fff;}
+
+  .white-plc-bai {
+  background: #41c3ac;
+  height: 250px;
+  overflow: auto;
+}
+
+
+  </style>
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+
+
+<div class="bai-block pb-8 pt-5 pt-md-8">
+</div>
+<div class = "white-plc-bai">
+
+</div>
+
+
+
+
+
+
+      <div class="content">
+        <div class="container-fluid">
+          <!-- your content here -->
+          <br>
+
+          <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <a class="navbar-brand font-weight-bold nav-link text-uppercase " href="#">Application</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigationbar"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navigationbar">
+              <form class="form-inline ml-auto">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">File Id:</span>
+                  </div>
+                  <input class="form-control mr-sm-2" onClick="refresh();" type="text" placeholder="Search" id="text">
+                  <button class="btn btn-success" onClick="retrive()" type="button">Search</button>
+                </div>
+              </form>
+            </div>
+          </nav>
+
+
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table" >
+                      <thead class=" text-primary">
+                        <tr>
+                          <th>
+                            Actions
+                          </th>
+                            {% for hc in model_fields %}
+                              <th>
+                                {{hc}}
+                              </th>
+
+                            {% endfor %}
+                          </tr>
+                      </thead>
+
+
+
+
+
+
+                      <tbody id = "myTable">
+                        {% for stu in bma %}
+
+                        <tr>
+
+
+                          <td class="td-actions text-right">
+                              <button title="" class="btn btn-primary btn-link btn-sm" type="button" data-original-title="Modify Data" rel="tooltip" >
+                               <a href="/data/{{stu.income_id}}/update-income"> <i class="material-icons">Modify</i></a>
+                              </button>
+                              <button title="" class="btn btn-danger btn-link btn-sm" aria-describedby="tooltip370378" type="button" data-original-title="Remove" rel="tooltip">
+                                <a href="/data/{{stu.income_id}}/delete-income"> <i class="material-icons">Delete</i></a>
+                              <div class="ripple-container"></div></button>
+
+                              <button title="" class="btn btn-primary btn-link btn-sm" type="button" data-original-title="Model Evaluation" rel="tooltip" >
+                               <a href="/data/{{stu.income_id}}/evaluate-income"> <i >Evaluate</i></a>
+                              </button>
+                            </td>
+
+
+
+
+                            <td> {{stu.income_id}}</td>
+                            <td> {{stu.age}}</td>
+                            <td> {{stu.workclass}}</td>
+                            <td> {{stu.fnlwgt}}</td>
+                            <td> {{stu.education}}</td>
+                            <td> {{stu.education_num}}</td>
+                            <td> {{stu.marital_status}}</td>
+                            <td> {{stu.occupation}}</td>
+                            <td> {{stu.relationship}}</td>
+                            <td> {{stu.race}}</td>
+                            <td> {{stu.sex}}</td>
+                            <td> {{stu.capital_gain}}</td>
+                            <td> {{stu.capital_loss}}</td>
+                            <td> {{stu.hours_per_week}}</td>
+                            <td> {{stu.native_country}}</td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </tr>
+
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <hr><p id="not_found_id"></p><hr>
+
+                    <div class="stats">
+                      <a class="btn btn-outline-info btn-round" href="{% url 'insert-income' %}">Insert Data</a>
+                    </div>
+
+                    <div class="card-footer">
+
+
+                </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+    {% endblock content %}
+
+    <!-- Specific JS goes HERE -->
+    {% block javascripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/static/js/core/jquery.min.js"></script>
+  <script src="/static/js/core/popper.min.js"></script>
+  <script src="/static/js/core/bootstrap-material-design.min.js"></script>
+  <script src="/static/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="/static/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="/static/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="/static/js/plugins/jquery.validate.min.js"></script>
+  <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+  <script src="/static/js/plugins/jquery.bootstrap-wizard.js"></script>
+  <!--  Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+  <script src="/static/js/plugins/bootstrap-selectpicker.js"></script>
+  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+  <script src="/static/js/plugins/bootstrap-datetimepicker.min.js"></script>
+  <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+  <script src="/static/js/plugins/jquery.dataTables.min.js"></script>
+  <!--  Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+  <script src="/static/js/plugins/bootstrap-tagsinput.js"></script>
+  <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+  <script src="/static/js/plugins/jasny-bootstrap.min.js"></script>
+  <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+  <script src="/static/js/plugins/fullcalendar.min.js"></script>
+  <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+  <script src="/static/js/plugins/jquery-jvectormap.js"></script>
+  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+  <script src="/static/js/plugins/nouislider.min.js"></script>
+  <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+  <!-- Library for adding dinamically elements -->
+  <script src="/static/js/plugins/arrive.min.js"></script>
+  <!--  Google Maps Plugin    -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <!-- Chartist JS -->
+  <script src="/static/js/plugins/chartist.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="/static/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="/static/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
+  <!-- Material Dashboard DEMO methods, don't include it in your project! -->
+
+
+
+
+
+
+  <script>
+    function retrive()
+    {
+      var text1=document.getElementById('text').value;
+      if(text1)
+      {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+              value = xhttp.responseText;
+              if(value=="Not Found")
+              {
+                document.getElementById("not_found_id").innerHTML = "<span class='text-danger' id=\"warning\">Entry Not Found&nbsp&nbsp</span> Please insert data first."
+
+              }
+              else {
+                var t = JSON.parse(value);
+
+
+                console.log(t);
+
+
+                var tbl = document.getElementById("myTable");
+
+                for (var i=0; i<t.length; i++){
+
+                  console.log('hhhhhh',t)
+                   var row = `<tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  <td class="td-actions text-right">
+                                  <button title="" class="btn btn-primary btn-link btn-sm" type="button" data-original-title="Edit Task" rel="tooltip" >
+                                  <a href="/data/${t[i].income_id}/update-income"> <i class="material-icons">edit</i></a>
+                                  </button>
+                                  <button title="" class="btn btn-danger btn-link btn-sm" aria-describedby="tooltip370378" type="button" data-original-title="Remove" rel="tooltip">
+                                    <a href="/data/${t[i].income_id}/delete-income"> <i class="material-icons">delete</i></a>
+                                  <div class="ripple-container"></div></button>
+
+                                  <button title="" class="btn btn-primary btn-link btn-sm" type="button" data-original-title="Edit Task" rel="tooltip" >
+                                  <a href="/data/${t[i].income_id}/evaluate-income"> <i >Evaluate</i></a>
+                                  </button>
+                                </td>
+
+
+
+
+
+
+                                  <td> ${t[i].income_id}</td>
+                                  <td> ${t[i].age}</td>
+                                  <td> ${t[i].workclass}</td>
+                                  <td> ${t[i].fnlwgt}</td>
+                                  <td> ${t[i].education}</td>
+                                  <td> ${t[i].education_num}</td>
+                                  <td> ${t[i].marital_status}</td>
+                                  <td> ${t[i].occupation}</td>
+                                  <td> ${t[i].relationship}</td>
+                                  <td> ${t[i].race}</td>
+                                  <td> ${t[i].sex}</td>
+                                  <td> ${t[i].capital_gain}</td>
+                                  <td> ${t[i].capital_loss}</td>
+                                  <td> ${t[i].hours_per_week}</td>
+                                  <td> ${t[i].native_country}</td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                </tr>`
+                  tbl.innerHTML +=row
+
+
+                              }
+              }
+                                    }
+                        };
+        xhttp.open("POST", "../income", true);
+        var x ="{{ csrf_token }}"
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.setRequestHeader('X-CSRFToken', x);
+
+        xhttp.send("str="+(text1));
+      }
+
+    }
+
+    function refresh()
+    {
+      document.getElementById('warning').innerHTML="";
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {% endblock javascripts %}

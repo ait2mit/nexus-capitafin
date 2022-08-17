@@ -1,0 +1,10 @@
+{% autoescape off %}
+Hi Admin,
+An account has been created using user name: {{ user.username }},
+Please click on the link to activate the registration of {{ user.username }} ,
+
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+Thank you admin
+
+{% endautoescape %}

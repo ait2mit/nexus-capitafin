@@ -1,0 +1,474 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Icons {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      <div class="container-fluid">
+        <div class="header-body">
+          <!-- Card stats -->
+          <div class="row">
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">AUC</h5>
+                      <span class="h2 font-weight-bold mb-0">{{auc}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                        <i class="fas fa-chart-bar"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Past Threshold</h5>
+                      <span class="h2 font-weight-bold mb-0">{{test_threshold}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                        <i class="fas fa-chart-pie"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last week</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">File Score</h5>
+                      <span class="h2 font-weight-bold mb-0">{{scoreF}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                        <i class="fas fa-users"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
+                    <span class="text-nowrap">Since yesterday</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">File Decision</h5>
+                      <span class="h2 font-weight-bold mb-0">{{file_decsion}}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                        <i class="fas fa-percent"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-muted text-sm">
+                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+<!-- Header Ends -->
+
+    <div class="container-fluid mt--7">
+{{file_score}}
+      <div class="row">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header bg-transparent">
+              <style> .third { width: 33.33%; float: left; } </style>
+              <div class="third"> <h2>Data Input</h2> </div>
+              <div class="third"> <h2>Model Parameter Importances</h2> </div>
+              <div class="third"> <h2>File Parameter Importances</h2> </div>
+            </div>
+
+
+            <div class="row">
+
+            <div class="col-sm-4">
+
+              <form action ="{% url 'loan' %}" method="post" novalidate>
+                {% csrf_token %}
+                <table>
+                {{loanform}}
+
+                </table>
+                  <input type="submit" value="Evaluate File">
+                </form>
+            </div>
+
+            <div class="col-sm-4">
+
+              	<canvas id="myChart_model"></canvas>
+            </div>
+
+            <div class="col-sm-4">
+
+                {% if showMap == 'True' %}
+                      <canvas id="myChart" width="400" height="400"></canvas>
+                {%elif showMap == 'False' %}
+
+                {%endif%}
+
+            </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+<script>
+	var endpoint = '/api';
+
+	$.ajax({
+	method: "GET",
+	url: endpoint,
+	success: function(data) {
+		drawBarGraph(data, 'bar_shap_importance');
+
+	},
+	error: function(error_data) {
+		console.log(error_data);
+	}
+	})
+
+	function drawBarGraph(data, id) {
+	var labels = data.labels;
+	var chartLabel = data.chartLabel;
+	var chartdata = data.chartdata;
+  var corr_v = data.corr_v;
+
+  var bar_color = []
+
+  for (xx in corr_v) {
+    var x=Number(corr_v[xx])
+    console.log(x+x)
+        if (x < 0) {
+            bar_col = "#FA8072";
+          } else {
+            bar_col = "#1ABC9C";
+          }
+        bar_color.push(bar_col)
+
+}
+
+	var ctx = document.getElementById(id).getContext('2d');
+	var myChart = new Chart(ctx, {
+		type: 'horizontalBar',
+		data: {
+		labels: labels,
+		datasets: [{
+			label: chartLabel,
+			data: chartdata,
+			backgroundColor: bar_color,
+			borderColor: bar_color,
+			borderWidth: 1
+		}]
+		},
+		options: {
+		scales: {
+      xAxes: [{
+          ticks: {
+              beginAtZero: true
+          }
+      }],
+
+			yAxes: [{
+			ticks: {
+				beginAtZero: true
+			}
+			}]
+		}
+		}
+	});
+	}
+</script>
+
+
+
+<script>
+	var endpoint = '/api';
+
+	$.ajax({
+	method: "GET",
+	url: endpoint,
+	success: function(data) {
+		drawBarGraph(data, 'individ_plot');
+
+	},
+	error: function(error_data) {
+		console.log(error_data);
+	}
+	})
+
+	function drawBarGraph(data, id) {
+	var labels = data.labels;
+	var chartLabel = data.chartLabel;
+	var chartdata = data.chartdata;
+  var corr_v = data.corr_v;
+
+  var bar_color = []
+
+  for (xx in corr_v) {
+    var x=Number(corr_v[xx])
+    console.log(x+x)
+        if (x < 0) {
+            bar_col = "#FA8072";
+          } else {
+            bar_col = "#1ABC9C";
+          }
+        bar_color.push(bar_col)
+
+}
+
+	var ctx = document.getElementById(id).getContext('2d');
+	var myChart = new Chart(ctx, {
+		type: 'horizontalBar',
+		data: {
+		labels: labels,
+		datasets: [{
+			label: chartLabel,
+			data: chartdata,
+			backgroundColor: bar_color,
+			borderColor: bar_color,
+			borderWidth: 1
+		}]
+		},
+		options: {
+		scales: {
+      xAxes: [{
+          ticks: {
+              beginAtZero: true
+          }
+      }],
+
+			yAxes: [{
+			ticks: {
+				beginAtZero: true
+			}
+			}]
+		}
+		}
+	});
+	}
+</script>
+
+
+
+
+
+<script>
+  const  model_imp_plot_shap_data = {{model_imp_plot_shap_data|safe}}
+  var data = model_imp_plot_shap_data;
+  	function drawBarGraph(data, id) {
+  	var labels = data.labels;
+  	var chartLabel = data.chartLabel;
+  	var chartdata = data.chartdata;
+    var corr_v = data.corr_v;
+
+    var bar_color = []
+
+    for (xx in corr_v) {
+      var x=Number(corr_v[xx])
+      console.log(x+x)
+          if (x < 0) {
+              bar_col = "#FA8072";
+            } else {
+              bar_col = "#1ABC9C";
+            }
+          bar_color.push(bar_col)
+
+  }
+
+  	var ctx = document.getElementById(myChart_model).getContext('2d');
+  	var myChart_model = new Chart(ctx, {
+  		type: 'horizontalBar',
+  		data: {
+  		labels: labels,
+  		datasets: [{
+  			label: chartLabel,
+  			data: chartdata,
+  			backgroundColor: bar_color,
+  			borderColor: bar_color,
+  			borderWidth: 1
+  		}]
+  		},
+  		options: {
+  		scales: {
+        xAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }],
+
+  			yAxes: [{
+  			ticks: {
+  				beginAtZero: true
+  			}
+  			}]
+  		}
+  		}
+  	});
+  	}
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+const train_probs = {{train_probs|safe}}
+
+var myTrainProbArray = train_probs;
+var arrayLength = myTrainProbArray.length;
+
+var bar_color1 = "#FA8072";
+
+
+var bar_color2 = "#1ABC9C"
+
+if ({{scoreF|safe}}>{{test_threshold|safe}}){
+  var bar_color2 = "#1ABC9C"
+} else {
+
+  var bar_color2 = "#FF0000"
+}
+
+var all_data_set = []
+
+
+for (i = 0; i < arrayLength+1; i++) {
+    data_train=myTrainProbArray[i];
+
+    if (i < arrayLength) {
+
+            var dat_set1 = {
+
+                         data: data_train,
+                         fill: false,
+                         backgroundColor: bar_color1,
+                         borderColor: bar_color1,
+                         borderDash: [10,5],
+                         borderWidth: 1
+                       };
+    } else {
+               var dat_set1 = {
+                         label: 'Curren File',
+                         data: {{shap_probs|safe}},
+                         fill: false,
+                         backgroundColor: bar_color2,
+                         borderColor: bar_color2,
+                         borderWidth: 2
+                       };
+
+             }
+    all_data_set.push(dat_set1)
+
+}
+
+
+
+
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: {{shap_cols|safe}},
+          datasets: all_data_set
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: false
+                  }
+              }
+              ]
+          }
+      }
+  });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock javascripts %}

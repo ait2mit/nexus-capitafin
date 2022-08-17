@@ -1,0 +1,142 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Welcome to BengalAI Deshboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+
+{% load static%}
+
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+
+
+    </div>
+<!-- Header Ends -->
+
+
+
+
+
+<div>
+
+
+
+    <body>
+
+
+      <main role="main">
+
+
+        <div class="album py-5 bg-light">
+          <div class="container">
+
+            <div class="row">
+
+              {% for ds in dash.all %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div class="col-md-4">
+
+
+
+                {% if ds.model_page == 'income' %}
+
+                <a href="{% url 'income' %}" >
+                {% elif ds.model_page == 'loan' %}
+                <a href="{% url 'loan' %}" >
+
+                {% elif ds.model_page == 'insurance' %}
+                <a href="{% url 'insurance' %}" >
+
+                {% elif ds.model_page == 'bima' %}
+                <a href="{% url 'bima' %}" >
+                    
+                {% else %}
+                <a href="{% url 'income' %}" >
+                {% endif %}
+
+
+                <div class="card mb-4 box-shadow">
+                  <img class="card-img-top" src="{{ds.image.url}}" height = 300>
+                  <div class="card-body">
+                    <p class="card-text">{{ds.summary}}</p>
+
+
+                  </div>
+
+                </div>
+
+
+              </a>
+
+
+              </div>
+
+              {% endfor %}
+
+
+
+
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+
+
+    </body>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}

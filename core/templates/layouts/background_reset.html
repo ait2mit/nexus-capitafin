@@ -1,0 +1,53 @@
+
+
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+
+<style>
+
+@import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+.login-block{
+background: #5185ca;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to bottom, #7733ff, #5500ff);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to bottom, #cac0dd, #5500ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+float:left;
+width:100%;
+height:100%;
+padding : 150px 0;
+}
+
+.info-text{text-align:left;color:#5500ff;}
+.banner-text p{color:#5500ff;}
+.register-sec{background:#fff;padding: 50px 30px; position:relative;}
+
+</style>
+
+
+{% endblock stylesheets %}
+
+
+<div class="main-content">
+
+  {% block content %}{% endblock content %}
+
+</div>
+
+
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+
+
+
+
+{% endblock javascripts %}
