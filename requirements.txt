@@ -9,7 +9,7 @@ gunicorn
 whitenoise
 sklearn
 xgboost
-django
+django==3.2
 djangorestframework
 pandas
 joblib
