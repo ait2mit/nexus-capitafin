@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 """
-License: MIT
-Copyright (c) 2019 - present AppSeed.us
+Copyright (c) 2022 - BengalAI
 """
 
 from django.urls import path
