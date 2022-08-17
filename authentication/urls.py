@@ -4,7 +4,10 @@ Copyright (c) 2022 - BengalAI
 """
 
 from django.urls import path
-from django.conf.urls import url
+
+from django.conf.urls import  include
+from django.urls import re_path as url
+
 from .views import login_view, register_user,activate
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView
