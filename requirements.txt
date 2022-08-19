@@ -17,3 +17,4 @@ pillow
 django-crispy-forms
 psycopg2-binary
 plotly
+whitenoise
